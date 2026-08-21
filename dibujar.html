@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dibuja con el Índice</title>
+  <link rel="stylesheet" href="css/dibujar.css?v=4">
+  <link rel="stylesheet" href="css/celebration.css?v=1">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" defer></script>
+  <script src="js/celebration.js?v=3" defer></script>
+  <script src="js/dibujar.js?v=5" defer></script>
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+  <link rel="stylesheet" href="css/activity-header.css?v=2">
+  <link rel="stylesheet" href="css/activity-contrast.css?v=1">
+</head>
+<body data-page-bg="drawing">
+  <header class="topbar activity-topbar activity-topbar--drawing">
+    <a class="back-button activity-back" data-app-back href="menu-jugador.html" aria-label="Volver al menú">←</a>
+    <div class="brand activity-brand"><span class="activity-icon" aria-hidden="true">☝</span><div><strong>Dibuja con el Índice</strong><small>Solo el índice activa el pincel</small></div></div>
+    <div class="activity-actions"><div id="gestureBadge" class="gesture-badge"><span>Dedos detectados</span><strong id="fingerCount">0</strong></div></div>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro-band">
+      <div><span class="eyebrow">PINTURA EN EL AIRE</span><h1>Tu índice se convierte en pincel</h1><p>Levanta únicamente el dedo índice. El trazo se detiene en cuanto levantas otro dedo o cierras la mano.</p></div>
+      <div class="gesture-guide" aria-label="Gesto requerido"><span>☝</span><div><strong>Gesto para dibujar</strong><small>Solo el dedo índice</small></div></div>
+    </section>
+
+    <div class="workspace-grid">
+      <section class="camera-panel" aria-labelledby="canvasTitle">
+        <div class="panel-heading"><div><span class="eyebrow">LIENZO CON CÁMARA</span><h2 id="canvasTitle">Dibuja moviendo el índice</h2></div><span id="cameraStatus" class="status-chip">Preparado</span></div>
+        <div class="camera-stage">
+          <video id="video" autoplay muted playsinline></video>
+          <canvas id="drawingCanvas"></canvas>
+          <canvas id="trackingCanvas"></canvas>
+          <div id="cameraPlaceholder" class="camera-placeholder"><span>☝</span><strong>Cámara detenida</strong><small>Actívala y levanta solamente el índice.</small></div>
+          <div class="canvas-corners" aria-hidden="true"></div>
+        </div>
+        <div id="drawingStatus" class="drawing-status waiting" aria-live="polite"><span></span><strong>Esperando cámara</strong><small>El dibujo está bloqueado.</small></div>
+        <div class="main-controls">
+          <button id="cameraButton" class="primary-button" type="button">▶ Iniciar cámara</button>
+          <button id="clearButton" class="secondary-button" type="button">⌫ Borrar todo</button>
+          <button id="undoButton" class="icon-button" type="button" title="Deshacer último trazo" aria-label="Deshacer último trazo" disabled>↶</button>
+          <button id="saveButton" class="secondary-button" type="button" disabled>↓ Guardar en 1:00</button>
+        </div>
+      </section>
+
+      <aside class="tools-panel">
+        <span class="eyebrow">HERRAMIENTAS</span>
+        <h2>Elige tu pincel</h2>
+        <div class="tool-section">
+          <label>Color del trazo</label>
+          <div id="colorPalette" class="color-palette" role="group" aria-label="Colores del pincel">
+            <button class="color-swatch active" type="button" data-color="#ef3e36" style="--swatch:#ef3e36" aria-label="Rojo"></button>
+            <button class="color-swatch" type="button" data-color="#f08a24" style="--swatch:#f08a24" aria-label="Naranja"></button>
+            <button class="color-swatch" type="button" data-color="#f2c230" style="--swatch:#f2c230" aria-label="Amarillo"></button>
+            <button class="color-swatch" type="button" data-color="#2e9a55" style="--swatch:#2e9a55" aria-label="Verde"></button>
+            <button class="color-swatch" type="button" data-color="#168da8" style="--swatch:#168da8" aria-label="Turquesa"></button>
+            <button class="color-swatch" type="button" data-color="#2c73c9" style="--swatch:#2c73c9" aria-label="Azul"></button>
+            <button class="color-swatch" type="button" data-color="#8b43b2" style="--swatch:#8b43b2" aria-label="Morado"></button>
+            <button class="color-swatch" type="button" data-color="#1e2d27" style="--swatch:#1e2d27" aria-label="Negro"></button>
+          </div>
+        </div>
+        <div class="tool-section">
+          <label for="brushSize">Grosor: <strong id="brushValue">12 px</strong></label>
+          <input id="brushSize" type="range" min="4" max="32" value="12">
+        </div>
+        <div class="gesture-rules">
+          <h3>Regla del pincel</h3>
+          <div class="rule correct"><span>☝</span><div><strong>Solo el índice</strong><small>Dibujo activado</small></div></div>
+          <div class="rule blocked"><span>☝</span><div><strong>Cualquier otro gesto</strong><small>Dibujo bloqueado</small></div></div>
+        </div>
+        <div class="tip-box"><strong>Consejo</strong><p>Mantén la palma mirando a la cámara, levanta el índice y conserva los demás dedos cerrados.</p></div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>Actividad de coordinación: MediaPipe reconoce la mano y habilita el trazo solo con el índice</footer>
+</body>
+</html>

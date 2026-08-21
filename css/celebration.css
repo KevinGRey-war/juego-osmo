@@ -1,0 +1,177 @@
+.app-celebration {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 20px;
+  background: rgba(15, 43, 32, 0.62);
+  backdrop-filter: blur(5px);
+}
+
+.app-celebration[hidden] {
+  display: none;
+}
+
+.app-celebration__balloons {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.app-celebration__balloon {
+  --balloon-color: #ef654b;
+  --balloon-left: 10%;
+  --balloon-size: 58px;
+  --balloon-delay: 0s;
+  --balloon-duration: 7s;
+  position: absolute;
+  bottom: -150px;
+  left: var(--balloon-left);
+  width: var(--balloon-size);
+  height: calc(var(--balloon-size) * 1.18);
+  border-radius: 50% 50% 46% 46%;
+  background: var(--balloon-color);
+  box-shadow: inset -9px -9px 0 rgba(0, 0, 0, 0.09), inset 9px 6px 0 rgba(255, 255, 255, 0.18);
+  animation: celebration-float var(--balloon-duration) ease-in var(--balloon-delay) infinite;
+}
+
+.app-celebration__balloon::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -8px;
+  width: 0;
+  height: 0;
+  border-right: 7px solid transparent;
+  border-left: 7px solid transparent;
+  border-bottom: 0;
+  border-top: 12px solid var(--balloon-color);
+  transform: translateX(-50%);
+}
+
+.app-celebration__balloon::after {
+  content: '';
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  width: 1px;
+  height: 95px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.app-celebration__panel {
+  position: relative;
+  z-index: 2;
+  width: min(560px, 100%);
+  padding: 38px 34px 30px;
+  border: 4px solid #f7c844;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #173f2d;
+  text-align: center;
+  box-shadow: 0 24px 65px rgba(0, 0, 0, 0.28);
+  animation: celebration-pop 420ms cubic-bezier(.2, .9, .3, 1.2) both;
+}
+
+.app-celebration__close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #cbd9d2;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #173f2d;
+  font: 800 1.25rem/1 Arial, sans-serif;
+  cursor: pointer;
+}
+
+.app-celebration__icon {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: #eaf7ee;
+  color: #176b43;
+  font: 900 2.3rem/1 "Segoe UI", Arial, sans-serif;
+  box-shadow: 0 0 0 10px #f7c84433;
+}
+
+.app-celebration__eyebrow {
+  margin: 0 0 8px;
+  color: #ef654b;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.app-celebration__title {
+  margin: 0;
+  color: #173f2d;
+  font-size: clamp(2rem, 7vw, 3.15rem);
+  line-height: 1.02;
+  letter-spacing: 0;
+}
+
+.app-celebration__message {
+  max-width: 44ch;
+  margin: 16px auto 0;
+  color: #48645a;
+  font-size: 1.08rem;
+  line-height: 1.55;
+}
+
+.app-celebration__actions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.app-celebration__button {
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid #176b43;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #176b43;
+  font: 800 0.96rem/1 "Segoe UI", Arial, sans-serif;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.app-celebration__button--primary {
+  background: #176b43;
+  color: #ffffff;
+}
+
+@keyframes celebration-float {
+  0% { transform: translate3d(0, 0, 0) rotate(-4deg); opacity: 0; }
+  8% { opacity: 1; }
+  55% { transform: translate3d(18px, -62vh, 0) rotate(5deg); }
+  100% { transform: translate3d(-12px, -125vh, 0) rotate(-3deg); opacity: 0.9; }
+}
+
+@keyframes celebration-pop {
+  from { opacity: 0; transform: translateY(24px) scale(0.92); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 600px) {
+  .app-celebration__panel { padding: 34px 20px 24px; }
+  .app-celebration__actions { flex-direction: column; }
+  .app-celebration__button { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-celebration__balloon { animation-duration: 1ms; animation-iteration-count: 1; }
+  .app-celebration__panel { animation: none; }
+}

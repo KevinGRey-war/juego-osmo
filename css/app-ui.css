@@ -1,0 +1,92 @@
+:root {
+  --osmo-green: #2e7d32;
+  --osmo-green-2: #43a047;
+  --osmo-yellow: #ffc107;
+  --osmo-ink: #17251b;
+  --osmo-muted: #60736a;
+  --osmo-surface: rgba(255, 255, 255, 0.94);
+  --osmo-ring: 0 0 0 4px rgba(67, 160, 71, 0.22);
+}
+
+html {
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  accent-color: var(--osmo-green);
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  box-shadow: var(--osmo-ring);
+}
+
+body:not(.auth-page) button {
+  min-height: 44px;
+}
+
+body:not(.auth-page) video,
+body:not(.auth-page) canvas {
+  max-width: 100%;
+}
+
+.app-back {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 10px 14px;
+  border: 1px solid rgba(46, 125, 50, 0.18);
+  border-radius: 999px;
+  background: var(--osmo-surface);
+  color: var(--osmo-green);
+  box-shadow: 0 12px 28px rgba(23, 37, 27, 0.14);
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  backdrop-filter: blur(14px);
+}
+
+.app-back:hover {
+  color: #1b5e20;
+  transform: translateY(-1px);
+}
+
+.app-back::before {
+  content: "←";
+  font-size: 1rem;
+}
+
+.app-status-note {
+  border-radius: 14px;
+  background: #f7fbf7;
+  color: var(--osmo-muted);
+}
+
+@media (max-width: 640px) {
+  .app-back {
+    top: 10px;
+    left: 10px;
+    min-height: 38px;
+    padding: 9px 12px;
+    font-size: 0.82rem;
+  }
+}

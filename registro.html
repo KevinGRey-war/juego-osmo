@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro - Zoológico Mágico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/registro.css?v=3">
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+</head>
+<body class="auth-page register-page" data-page-bg="general">
+  <main class="auth-shell">
+    <section class="auth-hero" aria-label="Bienvenida">
+      <a class="auth-brand" href="index.html" aria-label="Volver al inicio">
+        <span class="brand-mark">OS</span>
+        <span>Juegos OSMO</span>
+      </a>
+      <div class="hero-copy">
+        <p class="eyebrow">Registro familiar</p>
+        <h1>Crea tu cuenta para jugar y guardar el progreso.</h1>
+        <p>Activa tu kit, entra al menú de juegos y acompaña cada avance con actividades de cámara, colores, letras y números.</p>
+      </div>
+      <div class="feature-list" aria-label="Beneficios">
+        <span>Progreso por jugador</span>
+        <span>Acceso con código de kit</span>
+        <span>Actividades interactivas</span>
+      </div>
+    </section>
+
+    <section class="auth-card" aria-labelledby="registerTitle">
+      <div class="card-heading">
+        <p class="eyebrow">Nueva cuenta</p>
+        <h2 id="registerTitle">Registro</h2>
+        <p>Usa el correo del representante y el código incluido en tu kit.</p>
+      </div>
+
+      <form id="registerForm" class="auth-form" novalidate>
+        <div class="input-group">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" name="nombre" class="form-input" autocomplete="name" minlength="3" required>
+          <small>Nombre del niño, representante o familia.</small>
+        </div>
+
+        <div class="input-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" class="form-input" autocomplete="email" required>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Contraseña</label>
+          <div class="password-field">
+            <input type="password" id="password" name="password" class="form-input" autocomplete="new-password" minlength="6" required>
+            <button type="button" class="icon-button" id="togglePassword" aria-label="Mostrar contraseña">Ver</button>
+          </div>
+          <div class="password-meter" aria-hidden="true">
+            <span></span>
+          </div>
+          <small id="passwordHint">Mínimo 6 caracteres.</small>
+        </div>
+
+        <div class="input-group">
+          <label for="codigoKit">Código del Kit</label>
+          <input type="text" id="codigoKit" name="codigoKit" class="form-input kit-input" autocomplete="off" spellcheck="false" required>
+          <small>Escríbelo tal como aparece en tu material OSMO.</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="registerSubmit">Crear cuenta</button>
+
+        <div id="mensajeRegistro" class="message" role="status" aria-live="polite"></div>
+
+        <p class="text-center">¿Ya tienes cuenta? <a href="index.html">Inicia sesión</a></p>
+      </form>
+    </section>
+  </main>
+
+  <script type="module">
+    import { registrarUsuario } from './js/auth.js';
+
+    const form = document.getElementById('registerForm');
+    const password = document.getElementById('password');
+    const togglePassword = document.getElementById('togglePassword');
+    const kitInput = document.getElementById('codigoKit');
+    const submitButton = document.getElementById('registerSubmit');
+    const meter = document.querySelector('.password-meter span');
+
+    function updatePasswordStrength() {
+      const value = password.value;
+      const score = Math.min(3, Number(value.length >= 6) + Number(/[A-ZÁÉÍÓÚÑ]/.test(value)) + Number(/\d/.test(value)));
+      meter.dataset.level = String(score);
+    }
+
+    togglePassword?.addEventListener('click', () => {
+      const shouldShow = password.type === 'password';
+      password.type = shouldShow ? 'text' : 'password';
+      togglePassword.textContent = shouldShow ? 'Ocultar' : 'Ver';
+      togglePassword.setAttribute('aria-label', shouldShow ? 'Ocultar contraseña' : 'Mostrar contraseña');
+    });
+
+    password?.addEventListener('input', updatePasswordStrength);
+
+    kitInput?.addEventListener('input', () => {
+      kitInput.value = kitInput.value.toUpperCase().replace(/\s+/g, '');
+    });
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Creando cuenta...';
+
+      try {
+        await registrarUsuario();
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Crear cuenta';
+      }
+    });
+  </script>
+</body>
+</html>

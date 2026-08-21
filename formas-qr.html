@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>25 Figuras Geométricas</title>
+  <link rel="stylesheet" href="css/formas-qr.css?v=7">
+  <script src="js/formas-qr.js?v=5" defer></script>
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+</head>
+<body data-page-bg="colors-shapes">
+  <nav class="print-toolbar" aria-label="Acciones de las figuras">
+    <a id="returnToShapes" href="formas.html?v=13">← Regresar al juego</a>
+    <span>25 figuras listas para observar</span>
+    <a class="download" href="output/pdf/figuras-geometricas.pdf?v=3" download="figuras-geometricas.pdf">↓ Descargar PDF</a>
+    <button id="printButton" type="button">▣ Imprimir</button>
+  </nav>
+  <main id="pages" aria-label="Colección de figuras geométricas"></main>
+  <script>
+    document.getElementById('returnToShapes').addEventListener('click', (event) => {
+      if (window.opener && !window.opener.closed) {
+        event.preventDefault();
+        window.opener.focus();
+        window.close();
+      }
+    });
+  </script>
+</body>
+</html>

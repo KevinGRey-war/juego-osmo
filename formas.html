@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reto de Formas</title>
+  <link rel="stylesheet" href="css/formas.css?v=7">
+  <link rel="stylesheet" href="css/celebration.css?v=1">
+  <script src="js/celebration.js?v=3" defer></script>
+  <script src="js/formas.js?v=12" defer></script>
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+  <link rel="stylesheet" href="css/activity-header.css?v=2">
+  <link rel="stylesheet" href="css/activity-contrast.css?v=1">
+  <script src="js/voice.js?v=1"></script>
+</head>
+<body data-page-bg="colors-shapes">
+  <header class="topbar activity-topbar activity-topbar--shapes">
+    <a class="back-button activity-back" data-app-back href="menu-jugador.html" aria-label="Volver al menú">←</a>
+    <div class="brand activity-brand">
+      <span class="brand-mark activity-icon" aria-hidden="true">◆</span>
+      <div><strong>Reto de Formas</strong><small>Observa, muestra y descubre</small></div>
+    </div>
+    <nav class="top-actions activity-actions" aria-label="Material de figuras">
+      <a href="formas-qr.html?v=7" target="shapeCardsWindow" rel="opener">▦ Ver las 25 figuras</a>
+      <a class="download-button" href="output/pdf/figuras-geometricas.pdf?v=3" download="figuras-geometricas.pdf">↓ Descargar PDF</a>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro-band">
+      <div>
+        <span class="eyebrow">25 FIGURAS GEOMÉTRICAS</span>
+        <h1>Encuentra la figura solicitada</h1>
+        <p>Muestra la figura impresa frente a la cámara y la aplicación reconocerá su contorno.</p>
+      </div>
+      <div class="score-badge" aria-label="Puntuación"><span>★</span><strong id="score">0</strong><small>puntos</small></div>
+    </section>
+
+    <section class="progress-panel" aria-labelledby="progressTitle">
+      <div class="progress-heading">
+        <div><span class="eyebrow">RONDA ACTUAL</span><h2 id="progressTitle">10 figuras elegidas al azar</h2></div>
+        <strong id="roundPosition">0/10</strong>
+      </div>
+      <div class="progress-track" aria-hidden="true"><span id="progressFill"></span></div>
+    </section>
+
+    <div class="game-grid">
+      <section class="target-panel" aria-labelledby="targetName">
+        <span class="eyebrow">FIGURA SOLICITADA</span>
+        <div id="targetShape" class="target-shape" aria-hidden="true"></div>
+        <h2 id="targetName">Círculo</h2>
+        <p id="targetInstruction">Muestra el círculo dentro del marco de la cámara.</p>
+        <button id="repeatButton" class="secondary-button" type="button">🔊 Escuchar otra vez</button>
+      </section>
+
+      <section class="scanner-panel" aria-labelledby="scannerTitle">
+        <div class="panel-heading">
+          <div><span class="eyebrow">CÁMARA VISUAL</span><h2 id="scannerTitle">Detector de figuras</h2></div>
+          <span id="cameraStatus" class="status-chip">Cargando detector</span>
+        </div>
+        <div class="camera-stage">
+          <video id="video" autoplay muted playsinline></video>
+          <canvas id="analysisCanvas" width="320" height="320" hidden></canvas>
+          <div id="cameraPlaceholder" class="camera-placeholder">
+            <span aria-hidden="true">◇</span><strong>Cámara detenida</strong><small>Coloca una figura dentro del marco.</small>
+          </div>
+          <div class="scan-frame" aria-hidden="true"><span></span></div>
+          <div id="detectedLabel" class="detection-label" aria-live="polite">Buscando figura...</div>
+        </div>
+        <div class="camera-controls">
+          <button id="cameraButton" class="primary-button" type="button">▶ Iniciar cámara</button>
+          <button id="voiceButton" class="secondary-button" type="button" aria-pressed="true">🔊 Voz activada</button>
+          <button id="newRoundButton" class="icon-button" type="button" title="Nueva ronda" aria-label="Nueva ronda">↻</button>
+        </div>
+        <p id="feedback" class="feedback neutral" aria-live="polite">Enciende la cámara y muestra una de las figuras impresas.</p>
+      </section>
+    </div>
+
+    <section class="stats-panel" aria-label="Resultados de la ronda">
+      <div><strong id="correctCount">0</strong><span>✓ Aciertos</span></div>
+      <div><strong id="incorrectCount">0</strong><span>× Errores</span></div>
+      <div><strong id="remainingCount">10</strong><span>◇ Pendientes</span></div>
+      <div><strong id="accuracy">0%</strong><span>◎ Precisión</span></div>
+    </section>
+
+    <section class="catalog-panel" aria-labelledby="catalogTitle">
+      <div class="catalog-heading">
+        <div><span class="eyebrow">COLECCIÓN</span><h2 id="catalogTitle">Figuras de esta actividad</h2></div>
+        <a href="formas-qr.html?v=7" target="shapeCardsWindow" rel="opener">Abrir figuras →</a>
+      </div>
+      <div id="shapeCatalog" class="shape-catalog"></div>
+    </section>
+  </main>
+
+  <footer>Actividad educativa de reconocimiento visual de figuras geométricas</footer>
+</body>
+</html>

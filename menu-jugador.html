@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de actividades | Juegos educativos OSMO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./css/menu-jugador.css?v=2">
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+</head>
+<body data-page-bg="general">
+    <!-- Barra de navegación superior -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <button class="menu-toggle" id="menuToggle" type="button" aria-label="Abrir menú de actividades" aria-controls="sidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+            <span class="navbar-brand">Juegos educativos OSMO</span>
+        </div>
+        <div class="navbar-right">
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> <span>Cerrar sesión</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Menú lateral -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-gamepad"></i> Menú de Juegos</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li>
+                    <a href="juegoletras.html?v=23" class="menu-item">
+                        <i class="fas fa-qrcode"></i> Letras con QR Video
+                    </a>
+                </li>
+                <li>
+                    <a href="juegonumeros2.html?v=13" class="menu-item">
+                        <i class="fas fa-hashtag"></i> Juego de números
+                    </a>
+                </li>
+                <li>
+                    <a href="zoologico.html?v=16" class="menu-item">
+                        <i class="fas fa-paw"></i> Zoológico mágico
+                    </a>
+                </li>
+                <li>
+                    <a href="identificacioncolores.html?v=7" class="menu-item">
+                        <i class="fas fa-palette"></i> Identificación de colores
+                    </a>
+                </li>
+                <li>
+                    <a href="formas.html?v=13" class="menu-item">
+                        <i class="fas fa-shapes"></i> Formas
+                    </a>
+                </li>
+                <li>
+                    <a href="manos2.html?v=8" class="menu-item">
+                        <i class="fas fa-hand-paper"></i> Juego de manos
+                    </a>
+                </li>
+                <li>
+                    <a href="cuerpohumano.html?v=9" class="menu-item">
+                        <i class="fas fa-child"></i> Cuerpo humano
+                    </a>
+                </li>
+                <li>
+                    <a href="dibujar.html?v=9" class="menu-item">
+                        <i class="fas fa-paint-brush"></i> Dibujar
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Contenido principal -->
+        <main class="main-content" id="mainContent">
+            <section class="content-section active menu-welcome" aria-labelledby="welcomeTitle">
+                <div class="welcome-copy">
+                    <span class="welcome-badge"><i class="fas fa-star" aria-hidden="true"></i> 8 actividades para aprender jugando</span>
+                    <h1 id="welcomeTitle">Elige una aventura y sigue las indicaciones.</h1>
+                    <p>Cada tarjeta explica qué necesitas. Al entrar, la pantalla y la voz te guiarán paso a paso.</p>
+                </div>
+
+                <aside class="activity-panel" aria-labelledby="readyTitle">
+                    <h2 id="readyTitle">Antes de empezar</h2>
+                    <ul>
+                        <li><i class="fas fa-sun" aria-hidden="true"></i><span>Busca un lugar con buena luz.</span></li>
+                        <li><i class="fas fa-camera" aria-hidden="true"></i><span>Permite la cámara cuando la actividad la solicite.</span></li>
+                        <li><i class="fas fa-volume-high" aria-hidden="true"></i><span>Mantén el sonido activado para escuchar la guía.</span></li>
+                    </ul>
+                </aside>
+
+                <div class="orientation-strip" aria-label="Cómo jugar">
+                    <div><span>1</span><strong>Elige</strong><small>Abre una actividad.</small></div>
+                    <div><span>2</span><strong>Prepara</strong><small>Ten a mano cámara, QR o tus manos.</small></div>
+                    <div><span>3</span><strong>Sigue</strong><small>Observa y escucha cada reto.</small></div>
+                </div>
+
+                <section class="activities-section" aria-labelledby="activitiesTitle">
+                    <div class="section-heading">
+                        <div><span class="eyebrow">MENÚ PRINCIPAL</span><h2 id="activitiesTitle">¿Qué quieres practicar hoy?</h2></div>
+                        <span class="activity-count">8 disponibles</span>
+                    </div>
+                    <div class="activity-grid">
+                        <a class="activity-card card-letters" href="juegoletras.html?v=23">
+                            <span class="card-icon">Aa</span><span class="card-copy"><strong>Letras</strong><small>Mira el video y muestra el QR de cada letra.</small><em><i class="fas fa-qrcode"></i> Video + QR</em></span><i class="fas fa-arrow-right card-arrow"></i>
+                        </a>
+                        <a class="activity-card card-numbers" href="juegonumeros2.html?v=13">
+                            <span class="card-icon">123</span><span class="card-copy"><strong>Números</strong><small>Aprende del 1 al 10 con video y códigos QR.</small><em><i class="fas fa-qrcode"></i> Video + QR</em></span><i class="fas fa-arrow-right card-arrow"></i>
+                        </a>
+                        <a class="activity-card card-zoo" href="zoologico.html?v=16">
+                            <span class="card-icon">🐾</span><span class="card-copy"><strong>Zoológico mágico</strong><small>Resuelve pistas y descubre animales.</small><em><i class="fas fa-camera"></i> Cámara + QR</em></span><i class="fas fa-arrow-right card-arrow"></i>
+                        </a>
+                        <a class="activity-card card-colors" href="identificacioncolores.html?v=7">
+                            <span class="card-icon">🎨</span><span class="card-copy"><strong>Colores</strong><small>Sigue la secuencia y enfoca cada color.</small><em><i class="fas fa-camera"></i> Cámara</em></span><i class="fas fa-arrow-right card-arrow"></i>
+                        </a>
+                        <a class="activity-card card-shapes" href="formas.html?v=13">
+                            <span class="card-icon">◆</span><span class="card-copy"><strong>Reto de formas</strong><small>Muestra la figura solicitada dentro del marco.</small><em><i class="fas fa-shapes"></i> Figuras + cámara</em></span><i class="fas fa-arrow-right card-arrow"></i>
+                        </a>
+                        <a class="activity-card card-hands" href="manos2.html?v=8">
+                            <span class="card-icon">✋</span><span class="card-copy"><strong>Figuras de manos</strong><small>Representa los números con tus dedos.</small><em><i class="fas fa-hand"></i> Manos + cámara</em></span><i class="fas fa-arrow-right card-arrow"></i>
+                        </a>
+                        <a class="activity-card card-body" href="cuerpohumano.html?v=9">
+                            <span class="card-icon">🫀</span><span class="card-copy"><strong>Cuerpo humano</strong><small>Señala los órganos y conoce su función.</small><em><i class="fas fa-child-reaching"></i> Movimiento + cámara</em></span><i class="fas fa-arrow-right card-arrow"></i>
+                        </a>
+                        <a class="activity-card card-drawing" href="dibujar.html?v=9">
+                            <span class="card-icon">☝</span><span class="card-copy"><strong>Dibujar</strong><small>Convierte tu dedo índice en un pincel.</small><em><i class="fas fa-paintbrush"></i> Mano + cámara</em></span><i class="fas fa-arrow-right card-arrow"></i>
+                        </a>
+                    </div>
+                </section>
+            </section>
+        </main>
+    </div>
+
+    <script src="./js/menu-jugador.js?v=2"></script>
+</body>
+</html>

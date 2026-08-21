@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Descubre el Cuerpo Humano</title>
+  <link rel="stylesheet" href="css/cuerpo-humano.css?v=4">
+  <link rel="stylesheet" href="css/celebration.css?v=1">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" defer></script>
+  <script src="js/celebration.js?v=3" defer></script>
+  <script src="js/cuerpohumano.js?v=6" defer></script>
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+  <link rel="stylesheet" href="css/activity-header.css?v=2">
+  <link rel="stylesheet" href="css/activity-contrast.css?v=1">
+  <script src="js/voice.js?v=1"></script>
+</head>
+<body data-page-bg="body-hands">
+  <header class="topbar activity-topbar activity-topbar--body">
+    <a class="back-button activity-back" data-app-back href="menu-jugador.html" aria-label="Volver al menú">←</a>
+    <div class="brand activity-brand"><span class="activity-icon" aria-hidden="true">🫀</span><div><strong>Descubre el Cuerpo Humano</strong><small>Toca y aprende la importancia de cada órgano</small></div></div>
+    <div class="activity-actions"><button id="voiceButton" class="voice-button" type="button" aria-pressed="true">🔊 Voz activada</button></div>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro-band">
+      <div><span class="eyebrow">MAPA ANATÓMICO INTERACTIVO</span><h1>Explora los órganos del cuerpo</h1><p>Toca un órgano en su posición para conocer dónde está, qué hace y por qué es importante.</p></div>
+      <div class="discovery-badge"><strong id="discoveredCount">0/8</strong><span>órganos descubiertos</span></div>
+    </section>
+    <div class="progress-track" aria-hidden="true"><span id="progressFill"></span></div>
+
+    <div class="anatomy-layout">
+      <section class="anatomy-panel" aria-labelledby="anatomyTitle">
+        <div class="panel-heading"><div><span class="eyebrow">VISTA FRONTAL</span><h2 id="anatomyTitle">Posiciones anatómicas aproximadas</h2></div><span class="orientation-note">Tu izquierda →</span></div>
+        <div id="bodyBoard" class="body-board">
+          <img class="body-reference" src="assets/cuerpo-humano-organos-v2.png" alt="Ilustración educativa frontal con los órganos internos en sus posiciones aproximadas">
+          <button class="organ-marker" data-organ="brain" style="--x:50%;--y:10%" aria-label="Cerebro"><span>🧠</span></button>
+          <button class="organ-marker" data-organ="lungs" style="--x:50%;--y:32%" aria-label="Pulmones"><span>🫁</span></button>
+          <button class="organ-marker" data-organ="heart" style="--x:54%;--y:36.5%" aria-label="Corazón"><span>🫀</span></button>
+          <button class="organ-marker" data-organ="liver" style="--x:43%;--y:44%" aria-label="Hígado"><span>🟤</span></button>
+          <button class="organ-marker" data-organ="stomach" style="--x:59%;--y:46%" aria-label="Estómago"><span>◒</span></button>
+          <button class="organ-marker" data-organ="kidneys" style="--x:50%;--y:50.5%" aria-label="Riñones"><span>🫘</span></button>
+          <button class="organ-marker" data-organ="small-intestine" style="--x:52%;--y:58%" aria-label="Intestino delgado"><span>〰</span></button>
+          <button class="organ-marker" data-organ="large-intestine" style="--x:43%;--y:60%" aria-label="Intestino grueso"><span>▣</span></button>
+          <div id="virtualPointer" class="virtual-pointer" aria-hidden="true"></div>
+        </div>
+        <p class="board-note">En una vista frontal, el lado izquierdo de la persona aparece a tu derecha.</p>
+      </section>
+
+      <aside class="info-panel" aria-live="polite">
+        <span class="eyebrow">ÓRGANO SELECCIONADO</span>
+        <div id="organIcon" class="organ-icon">👤</div>
+        <div class="title-row"><h2 id="organTitle">Elige un órgano</h2><span id="organLocation">Mapa frontal</span></div>
+        <p id="organDescription" class="description">Toca cualquiera de los ocho órganos para descubrir sus características.</p>
+        <section class="importance-box"><strong>¿Por qué es importante?</strong><p id="organImportance">Cada órgano cumple una tarea especial y trabaja en equipo con los demás.</p></section>
+        <section class="fact-box"><strong>Dato para recordar</strong><p id="organFact">Tu cuerpo funciona como un gran equipo.</p></section>
+        <button id="listenButton" class="primary-button" type="button" disabled>🔊 Escuchar información</button>
+      </aside>
+    </div>
+
+    <section class="organ-list-panel" aria-labelledby="organListTitle">
+      <div class="panel-heading"><div><span class="eyebrow">LOS 8 ÓRGANOS</span><h2 id="organListTitle">También puedes tocarlos aquí</h2></div><span id="selectionStatus">Ninguno seleccionado</span></div>
+      <div id="organList" class="organ-list"></div>
+    </section>
+
+    <details class="camera-tool">
+      <summary>Usar el dedo como puntero con la cámara</summary>
+      <div class="camera-tool-content">
+        <div class="camera-stage"><video id="video" autoplay muted playsinline></video><img class="camera-body-guide" src="assets/cuerpo-humano-organos-v2.png" alt="" aria-hidden="true"><canvas id="handCanvas"></canvas><div id="cameraPlaceholder" class="camera-placeholder">☝ Activa la cámara y ubícate con la silueta</div></div>
+        <div><p id="cameraFeedback">La ilustración translúcida y los círculos te ayudarán a localizar cada órgano con el índice.</p><button id="cameraButton" class="secondary-button" type="button">▶ Activar cámara</button></div>
+      </div>
+    </details>
+  </main>
+
+  <footer>Material educativo: las posiciones son una referencia frontal simplificada, no una herramienta de diagnóstico</footer>
+</body>
+</html>

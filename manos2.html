@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuenta con tus Manos</title>
+  <link rel="stylesheet" href="css/manos.css?v=3">
+  <link rel="stylesheet" href="css/celebration.css?v=1">
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" defer></script>
+  <script src="js/celebration.js?v=3" defer></script>
+  <script src="js/manos2.js?v=5" defer></script>
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+  <link rel="stylesheet" href="css/activity-header.css?v=2">
+  <link rel="stylesheet" href="css/activity-contrast.css?v=1">
+  <script src="js/voice.js?v=1"></script>
+</head>
+<body data-page-bg="body-hands">
+  <header class="topbar activity-topbar activity-topbar--hands">
+    <a class="back-button activity-back" data-app-back href="menu-jugador.html" aria-label="Volver al menú">←</a>
+    <div class="brand activity-brand"><span class="activity-icon" aria-hidden="true">✋</span><div><strong>Cuenta con tus Manos</strong><small>Reconocimiento del 1 al 10</small></div></div>
+    <div class="activity-actions"><div class="header-score"><span>★</span><strong id="score">0</strong><small>puntos</small></div></div>
+  </header>
+
+  <main class="page-shell">
+    <section class="intro-band">
+      <div><span class="eyebrow">RETO DE COORDINACIÓN</span><h1>Muestra los números con tus dedos</h1><p>Extiende cada dedo completamente desde el nudillo. Mantén el gesto estable para que sea contado.</p></div>
+      <button id="voiceButton" class="secondary-button" type="button" aria-pressed="true">🔊 Voz activada</button>
+    </section>
+
+    <section class="number-progress" aria-labelledby="progressTitle">
+      <div class="progress-heading"><div><span class="eyebrow">RONDA 1-10</span><h2 id="progressTitle">Completa los diez números</h2></div><strong id="roundPosition">0/10</strong></div>
+      <div id="numberSteps" class="number-steps"></div>
+      <div class="progress-track"><span id="progressFill"></span></div>
+    </section>
+
+    <div class="game-grid">
+      <section class="camera-panel" aria-labelledby="cameraTitle">
+        <div class="panel-heading"><div><span class="eyebrow">CÁMARA</span><h2 id="cameraTitle">Detector de manos</h2></div><span id="cameraStatus" class="status-chip">Preparado</span></div>
+        <div class="camera-stage">
+          <video id="video" autoplay muted playsinline></video>
+          <canvas id="handCanvas"></canvas>
+          <div id="cameraPlaceholder" class="camera-placeholder"><span>✋</span><strong>Cámara detenida</strong><small>Abre los dedos desde los nudillos para contarlos.</small></div>
+          <div class="guide-frame" aria-hidden="true"></div>
+        </div>
+        <div class="detected-row">
+          <div><span>Mano izquierda</span><strong id="leftFingers">0</strong></div>
+          <div><span>Mano derecha</span><strong id="rightFingers">0</strong></div>
+          <div><span>Manos detectadas</span><strong id="handsDetected">0</strong></div>
+          <div><span>Total de dedos</span><strong id="fingersDetected">0</strong></div>
+        </div>
+        <div class="camera-controls">
+          <button id="cameraButton" class="primary-button" type="button">▶ Iniciar cámara</button>
+          <button id="repeatButton" class="secondary-button" type="button">🔊 Repetir número</button>
+          <button id="newRoundButton" class="icon-button" type="button" title="Nueva ronda" aria-label="Nueva ronda">↻</button>
+        </div>
+      </section>
+
+      <aside class="target-panel">
+        <span class="eyebrow">NÚMERO SOLICITADO</span>
+        <div id="targetNumber" class="target-number">1</div>
+        <h2 id="targetTitle">Muestra 1 dedo</h2>
+        <p id="targetHint">Puedes usar una mano.</p>
+        <div id="feedback" class="feedback neutral" aria-live="polite">Inicia la cámara cuando estés listo.</div>
+      </aside>
+    </div>
+
+    <section class="stats-panel" aria-label="Resultados">
+      <div><strong id="correctCount">0</strong><span>✓ Aciertos</span></div>
+      <div><strong id="incorrectCount">0</strong><span>× Errores</span></div>
+      <div><strong id="streakCount">0</strong><span>🔥 Racha</span></div>
+      <div><strong id="accuracy">0%</strong><span>◎ Precisión</span></div>
+    </section>
+  </main>
+
+  <footer>Actividad educativa para contar del 1 al 10 mediante la extensión completa de los dedos</footer>
+</body>
+</html>

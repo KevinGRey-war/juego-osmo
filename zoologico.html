@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoológico mágico con QR</title>
+    <link rel="stylesheet" href="css/zoologico.css?v=12">
+    <link rel="stylesheet" href="css/app-ui.css">
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+  <link rel="stylesheet" href="css/activity-header.css?v=2">
+  <link rel="stylesheet" href="css/activity-contrast.css?v=1">
+  <link rel="stylesheet" href="css/celebration.css?v=1">
+  <script src="js/voice.js?v=1"></script>
+</head>
+<body data-page-bg="zoo">
+    <header class="activity-topbar activity-topbar--zoo">
+        <a class="activity-back" data-app-back href="menu-jugador.html" aria-label="Volver al menú" title="Volver al menú">←</a>
+        <div class="activity-brand">
+            <span class="activity-icon" aria-hidden="true">🐾</span>
+            <div>
+                <strong>Zoológico mágico</strong>
+                <small>Adivinanzas y animales con códigos QR</small>
+            </div>
+        </div>
+        <div class="header-info activity-actions">
+            <div class="info-badge points-badge" aria-label="Puntuación de esta partida">
+                <span aria-hidden="true">★</span>
+                <span id="userPoints">0 puntos</span>
+            </div>
+            <div class="info-badge" aria-label="Progreso del reto">
+                <span aria-hidden="true">🐾</span>
+                <span id="headerQuestionCounter">0/10</span>
+            </div>
+            <a class="btn-qr-kit qr-kit-button" href="qr-zoologico.html?v=2" target="qrAnimalesWindow" rel="opener">
+                <span aria-hidden="true">▦</span> QR de animales
+            </a>
+            <a class="btn-qr-kit" href="output/pdf/animales-qr.pdf?v=1" download="animales-qr.pdf">↓ PDF</a>
+            <button id="resetZooBtn" class="btn-reset" type="button" title="Reiniciar juego" aria-label="Reiniciar juego">↺</button>
+        </div>
+    </header>
+
+    <main id="gameContainer" class="zoo-shell">
+        <section class="zoo-heading" aria-labelledby="pageTitle">
+            <div>
+                <p class="eyebrow">AVENTURA ANIMAL</p>
+                <h1 id="pageTitle">Escanea, descubre y aprende</h1>
+            </div>
+            <div class="player-chip">
+                <span aria-hidden="true">☺</span>
+                <span id="userName">Jugador</span>
+            </div>
+        </section>
+
+        <div class="game-layout">
+            <section class="scanner-panel" aria-labelledby="scannerTitle">
+                <div class="panel-heading">
+                    <div>
+                        <span class="panel-kicker">CÁMARA</span>
+                        <h2 id="scannerTitle">Escáner QR</h2>
+                    </div>
+                    <span id="scannerStatus" class="status-chip">Preparado</span>
+                </div>
+
+                <div class="riddle-box" aria-live="polite">
+                    <div class="riddle-meta">
+                        <span>ADIVINANZA</span>
+                        <strong id="questionCounter">0/10</strong>
+                    </div>
+                    <p id="riddleText">Pulsa comenzar para escuchar la primera pista.</p>
+                    <strong id="riddlePrompt">¿Qué animal soy?</strong>
+                    <p id="riddleExtra" class="riddle-extra" hidden></p>
+                    <button class="clue-action" type="button" id="extraHintBtn" disabled>
+                        <span aria-hidden="true">＋</span> Otra pista
+                    </button>
+                </div>
+
+                <div id="qrScanner" class="scanner-stage">
+                    <video id="qrVideo" playsinline muted></video>
+                    <canvas id="qrCanvas" aria-hidden="true"></canvas>
+                    <div class="camera-placeholder" id="cameraPlaceholder">
+                        <span aria-hidden="true">▦</span>
+                        <strong>Cámara detenida</strong>
+                    </div>
+                    <div class="qr-overlay" aria-hidden="true"></div>
+                </div>
+
+                <div class="scanner-actions">
+                    <button class="primary-action" type="button" id="startScannerBtn">
+                        <span aria-hidden="true">▶</span> Comenzar adivinanza
+                    </button>
+                    <button class="secondary-action" type="button" id="repeatRiddleBtn" disabled>
+                        <span aria-hidden="true">🔊</span> Repetir pista
+                    </button>
+                    <button class="secondary-action" type="button" id="stopScannerBtn" disabled>
+                        <span aria-hidden="true">■</span> Detener
+                    </button>
+                </div>
+                <p class="scanner-message" id="scannerMessage">Coloca un QR de animal frente a la cámara.</p>
+            </section>
+
+            <section class="animal-panel" aria-labelledby="animalName">
+                <div class="animal-visual">
+                    <div id="animalEmoji" class="animal-emoji" aria-hidden="true">🐾</div>
+                    <img id="animalImage" alt="Animal descubierto" hidden>
+                </div>
+                <div class="animal-copy">
+                    <span class="panel-kicker">ANIMAL DESCUBIERTO</span>
+                    <h2 id="animalName">¿Qué animal será?</h2>
+                    <p id="animalIntro">Escanea uno de los códigos para revelar un animal y conocerlo mejor.</p>
+                    <div id="animalDetails" class="animal-details" hidden>
+                        <div class="detail-item">
+                            <span>🐾 Tipo</span>
+                            <strong id="animalType">-</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>🌿 Hábitat</span>
+                            <strong id="animalHabitat">-</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>🍽 Alimentación</span>
+                            <strong id="animalDiet">-</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>🌍 Región</span>
+                            <strong id="animalRegion">-</strong>
+                        </div>
+                    </div>
+                    <p id="animalDescription" class="animal-description" hidden></p>
+                    <p id="animalAbility" class="animal-ability" hidden></p>
+                    <p id="animalFact" class="animal-fact">Aquí aparecerá un dato curioso.</p>
+                </div>
+                <div id="feedback" class="feedback neutral" aria-live="polite">Listo para comenzar</div>
+                <div class="animal-actions">
+                    <button class="secondary-action" type="button" id="soundBtn" disabled>
+                        <span aria-hidden="true">🔊</span> Escuchar información
+                    </button>
+                    <button class="secondary-action" type="button" id="hintBtn" disabled>
+                        <span aria-hidden="true">💡</span> Otro dato
+                    </button>
+                    <button class="primary-action next-animal-action" type="button" id="nextRiddleBtn" disabled>
+                        <span aria-hidden="true">→</span> Siguiente animal
+                    </button>
+                </div>
+            </section>
+        </div>
+
+        <section class="progress-section" aria-labelledby="progressTitle">
+            <div class="progress-heading">
+                <div>
+                    <span class="panel-kicker">COLECCIÓN</span>
+                    <h2 id="progressTitle">Animales del reto</h2>
+                </div>
+                <strong id="progressText">0/10 descubiertos</strong>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <div class="zoo-stats-grid" aria-label="Estadísticas de la partida" aria-live="polite">
+                <div class="zoo-stat points-stat">
+                    <strong id="sessionPoints">0</strong>
+                    <span>★ Puntos</span>
+                </div>
+                <div class="zoo-stat correct-stat">
+                    <strong id="statCorrect">0</strong>
+                    <span>✓ Correctos</span>
+                </div>
+                <div class="zoo-stat incorrect-stat">
+                    <strong id="statIncorrect">0</strong>
+                    <span>× Incorrectos</span>
+                </div>
+                <div class="zoo-stat streak-stat">
+                    <strong id="statStreak">0</strong>
+                    <span>● Racha</span>
+                </div>
+                <div class="zoo-stat accuracy-stat">
+                    <strong id="statAccuracy">0%</strong>
+                    <span>◎ Precisión</span>
+                </div>
+            </div>
+            <div id="animalGuide" class="animal-guide"></div>
+        </section>
+    </main>
+
+    <div id="animalVideoModal" class="animal-video-modal" role="dialog" aria-modal="true" aria-labelledby="videoAnimalTitle" hidden>
+        <div id="animalVideoBackdrop" class="animal-video-backdrop"></div>
+        <section class="animal-video-dialog">
+            <header class="animal-video-header">
+                <div>
+                    <span class="video-success-label">RESPUESTA CORRECTA</span>
+                    <h2 id="videoAnimalTitle">Descubriste un animal</h2>
+                </div>
+                <button id="closeAnimalVideoBtn" class="video-close-button" type="button" aria-label="Cerrar video" title="Cerrar video">×</button>
+            </header>
+            <div class="animal-video-frame">
+                <iframe id="animalVideoFrame" title="Video breve del animal" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                <div id="videoFinished" class="video-finished" hidden>
+                    <span aria-hidden="true">✓</span>
+                    <strong>Video completado</strong>
+                    <small>Continúa leyendo la ficha del animal.</small>
+                </div>
+            </div>
+            <div class="animal-video-copy">
+                <div class="video-meta">
+                    <strong id="videoDuration">Video breve</strong>
+                    <a id="videoSourceLink" href="#" target="_blank" rel="noopener">Ver fuente</a>
+                </div>
+                <p class="video-reference"><span>VIDEO ORIGINAL</span><strong id="videoReferenceTitle">Referencia del video</strong></p>
+                <div class="video-animal-traits" aria-label="Características principales del animal">
+                    <div>
+                        <span>VIVE EN</span>
+                        <strong id="videoAnimalHabitat">Hábitat natural</strong>
+                    </div>
+                    <div>
+                        <span>SE ALIMENTA DE</span>
+                        <strong id="videoAnimalDiet">Alimentación</strong>
+                    </div>
+                    <div>
+                        <span>HABILIDAD ESPECIAL</span>
+                        <strong id="videoAnimalAbility">Una capacidad sorprendente</strong>
+                    </div>
+                </div>
+                <p id="videoAnimalDescription" class="video-animal-description"></p>
+                <button id="videoModalContinueBtn" class="primary-action video-continue-button" type="button">
+                    <span aria-hidden="true">✓</span> Continuar con la ficha
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <audio id="animalSound"></audio>
+    <script src="js/celebration.js?v=3" defer></script>
+    <script src="js/zologico.js?v=14" defer></script>
+    <script src="js/app-ui.js?v=2" defer></script>
+</body>
+</html>

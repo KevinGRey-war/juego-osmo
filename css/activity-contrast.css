@@ -1,0 +1,98 @@
+/* Contraste compartido para los textos de orientación de las ocho actividades. */
+:root {
+  --osmo-text-strong: #10281e;
+  --osmo-text-body: #294638;
+  --osmo-surface-readable: rgba(255, 255, 255, 0.94);
+  --osmo-surface-border: rgba(16, 40, 30, 0.16);
+}
+
+.activity-brand strong,
+.activity-brand small {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.34);
+}
+
+.intro-band,
+.activity-heading,
+.zoo-heading {
+  border: 1px solid var(--osmo-surface-border);
+  background: var(--osmo-surface-readable);
+  box-shadow: 0 14px 30px rgba(16, 40, 30, 0.1);
+}
+
+.intro-band h1,
+.activity-heading h1,
+.zoo-heading h1,
+.panel-heading h2,
+.progress-heading h2,
+.sequence-header h2,
+.catalog-heading h2,
+.title-row h2,
+.tools-panel > h2,
+.progress-header,
+#targetName,
+#targetTitle,
+#animalName,
+#organTitle {
+  color: var(--osmo-text-strong);
+}
+
+.intro-band p,
+.activity-heading p,
+.zoo-heading p,
+#targetInstruction,
+#targetHint,
+#animalIntro,
+#animalDescription,
+#riddleText,
+#organDescription,
+#cameraFeedback,
+#instructionBox,
+#scanStatus,
+.board-note,
+.tip-box p,
+.drawing-status small,
+.drawing-status strong,
+.scanner-message,
+.description,
+footer {
+  color: var(--osmo-text-body);
+  font-weight: 650;
+}
+
+#instructionBox,
+.board-note,
+.tip-box,
+.scanner-message,
+#cameraFeedback {
+  border-color: var(--osmo-surface-border);
+  background: var(--osmo-surface-readable);
+}
+
+#scanStatus,
+#cameraFeedback,
+.tip-box p {
+  line-height: 1.55;
+}
+
+.camera-placeholder small {
+  color: #ffffff;
+  font-weight: 700;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75);
+}
+
+.eyebrow,
+.stat-label,
+.orientation-note,
+#selectionStatus {
+  color: #315846;
+  font-weight: 750;
+}
+
+@media (max-width: 640px) {
+  .intro-band,
+  .activity-heading,
+  .zoo-heading {
+    padding: 18px;
+  }
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paleta de colores para escanear</title>
+    <link rel="stylesheet" href="css/paleta-colores.css?v=1">
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+</head>
+<body data-page-bg="colors-shapes">
+    <nav class="palette-toolbar" aria-label="Acciones de la paleta">
+        <a id="returnToColors" href="identificacioncolores.html?v=3">← Regresar al juego</a>
+        <div>
+            <a class="download-button" href="output/pdf/paleta-colores.pdf?v=1" download="paleta-colores.pdf">↓ Descargar PDF</a>
+            <button id="printPaletteBtn" type="button">▣ Imprimir</button>
+        </div>
+    </nav>
+
+    <main class="letter-sheet">
+        <header class="sheet-header">
+            <div>
+                <span>JUEGOS EDUCATIVOS OSMO</span>
+                <h1>PALETA DE COLORES</h1>
+            </div>
+            <p>Coloca un recuadro a la vez frente a la cámara.</p>
+        </header>
+
+        <section class="color-grid" aria-label="Doce colores con sus nombres">
+            <article class="color-card" style="--swatch:#E53935"><div></div><strong>ROJO</strong></article>
+            <article class="color-card" style="--swatch:#FB8C00"><div></div><strong>NARANJA</strong></article>
+            <article class="color-card" style="--swatch:#FDD835"><div></div><strong>AMARILLO</strong></article>
+            <article class="color-card" style="--swatch:#43A047"><div></div><strong>VERDE</strong></article>
+            <article class="color-card" style="--swatch:#00ACC1"><div></div><strong>TURQUESA</strong></article>
+            <article class="color-card" style="--swatch:#1E88E5"><div></div><strong>AZUL</strong></article>
+            <article class="color-card" style="--swatch:#8E24AA"><div></div><strong>MORADO</strong></article>
+            <article class="color-card" style="--swatch:#EC407A"><div></div><strong>ROSA</strong></article>
+            <article class="color-card" style="--swatch:#795548"><div></div><strong>MARRÓN</strong></article>
+            <article class="color-card" style="--swatch:#212121"><div></div><strong>NEGRO</strong></article>
+            <article class="color-card" style="--swatch:#757575"><div></div><strong>GRIS</strong></article>
+            <article class="color-card" style="--swatch:#F5F5F5"><div></div><strong>BLANCO</strong></article>
+        </section>
+
+        <footer>Caza de Colores · Hoja tamaño carta</footer>
+    </main>
+
+    <script>
+        document.getElementById('printPaletteBtn').addEventListener('click', () => window.print());
+        document.getElementById('returnToColors').addEventListener('click', (event) => {
+            if (window.opener && !window.opener.closed) {
+                event.preventDefault();
+                window.opener.focus();
+                window.close();
+            }
+        });
+    </script>
+</body>
+</html>

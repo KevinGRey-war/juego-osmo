@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caza de Colores</title>
+    <link rel="stylesheet" href="css/identificacioncolores.css?v=2">
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+  <link rel="stylesheet" href="css/activity-header.css?v=2">
+  <link rel="stylesheet" href="css/activity-contrast.css?v=1">
+  <link rel="stylesheet" href="css/celebration.css?v=1">
+  <script src="js/voice.js?v=1"></script>
+</head>
+<body data-page-bg="colors-shapes">
+    <header class="color-topbar activity-topbar activity-topbar--colors">
+        <a class="app-back activity-back" data-app-back href="menu-jugador.html" aria-label="Volver al menú" title="Volver al menú">←</a>
+        <div class="color-brand activity-brand">
+            <span class="brand-swatch activity-icon" aria-hidden="true">🎨</span>
+            <div>
+                <strong>Caza de Colores</strong>
+                <small>Escucha, busca y enfoca</small>
+            </div>
+        </div>
+        <nav class="palette-actions activity-actions" aria-label="Paleta de colores">
+            <a class="toolbar-button" href="paleta-colores.html?v=2" target="colorPaletteWindow" rel="opener">
+                <span aria-hidden="true">▦</span> Ver paleta
+            </a>
+            <a class="toolbar-button primary" href="output/pdf/paleta-colores.pdf?v=1" download="paleta-colores.pdf">
+                <span aria-hidden="true">↓</span> Descargar PDF
+            </a>
+        </nav>
+    </header>
+
+    <main class="color-app">
+        <section class="activity-heading" aria-labelledby="pageTitle">
+            <div>
+                <span class="eyebrow">RETO CON CÁMARA</span>
+                <h1 id="pageTitle">Sigue la secuencia de colores</h1>
+                <p>Enfoca cada color de la hoja en el orden indicado.</p>
+            </div>
+            <div class="score-badge" aria-label="Puntuación de la partida">
+                <span aria-hidden="true">★</span>
+                <strong id="score">0</strong>
+                <span>puntos</span>
+            </div>
+        </section>
+
+        <section class="sequence-band" aria-labelledby="sequenceTitle">
+            <div class="sequence-header">
+                <div>
+                    <span class="eyebrow">SECUENCIA ACTUAL</span>
+                    <h2 id="sequenceTitle">Escanea en este orden</h2>
+                </div>
+                <strong id="sequencePosition">0/10</strong>
+            </div>
+            <div id="sequenceList" class="sequence-list" aria-live="polite"></div>
+            <div class="sequence-progress" aria-hidden="true"><span id="sequenceProgressFill"></span></div>
+        </section>
+
+        <div class="game-layout">
+            <section class="scanner-panel" aria-labelledby="scannerTitle">
+                <div class="panel-heading">
+                    <div>
+                        <span class="eyebrow">CÁMARA</span>
+                        <h2 id="scannerTitle">Detector de color</h2>
+                    </div>
+                    <span id="cameraStatus" class="status-pill">Preparado</span>
+                </div>
+
+                <div class="camera-view">
+                    <video id="video" autoplay muted playsinline></video>
+                    <canvas id="colorCanvas" hidden></canvas>
+                    <div id="cameraPlaceholder" class="camera-placeholder">
+                        <span aria-hidden="true">▦</span>
+                        <strong>Cámara detenida</strong>
+                        <small>Iníciala para reconocer los colores.</small>
+                    </div>
+                    <div class="focus-frame" aria-hidden="true"><span></span></div>
+                </div>
+
+                <div class="detected-color" aria-live="polite">
+                    <span id="detectedSwatch" class="detected-swatch"></span>
+                    <div>
+                        <small>COLOR DETECTADO</small>
+                        <strong id="detectedName">Esperando cámara</strong>
+                        <span id="detectedRgb">Centra una tarjeta dentro del recuadro</span>
+                    </div>
+                </div>
+
+                <div class="camera-controls">
+                    <button id="cameraBtn" class="command-button primary" type="button">
+                        <span aria-hidden="true">▶</span> Iniciar cámara
+                    </button>
+                    <button id="voiceBtn" class="command-button" type="button" aria-pressed="true">
+                        <span aria-hidden="true">🔊</span> Voz activada
+                    </button>
+                    <button id="newGameBtn" class="icon-button" type="button" title="Nueva partida" aria-label="Nueva partida">↻</button>
+                </div>
+
+                <p id="feedback" class="feedback neutral" aria-live="assertive">Descarga la paleta o utiliza objetos de colores para comenzar.</p>
+            </section>
+
+            <aside class="game-sidebar">
+                <section class="target-panel" aria-labelledby="targetTitle">
+                    <span class="eyebrow">COLOR SOLICITADO</span>
+                    <div id="targetSwatch" class="target-swatch" aria-hidden="true"></div>
+                    <h2 id="targetTitle">Prepara la cámara</h2>
+                    <p id="targetPrompt">La aplicación dirá el siguiente color al iniciar.</p>
+                    <button id="repeatPromptBtn" class="command-button wide" type="button">
+                        <span aria-hidden="true">🔊</span> Repetir color
+                    </button>
+                </section>
+
+                <section class="stats-panel" aria-label="Estadísticas de la partida">
+                    <div><strong id="correctCount">0</strong><span>✓ Aciertos</span></div>
+                    <div><strong id="incorrectCount">0</strong><span>× Errores</span></div>
+                    <div><strong id="completedCount">0</strong><span>▦ Secuencias</span></div>
+                    <div><strong id="accuracy">0%</strong><span>◎ Precisión</span></div>
+                </section>
+
+                <section class="mini-palette-panel" aria-labelledby="paletteTitle">
+                    <div class="panel-heading compact">
+                        <div>
+                            <span class="eyebrow">12 COLORES</span>
+                            <h2 id="paletteTitle">Paleta de práctica</h2>
+                        </div>
+                        <a href="output/pdf/paleta-colores.pdf?v=1" download="paleta-colores.pdf" aria-label="Descargar paleta en PDF" title="Descargar paleta en PDF">↓</a>
+                    </div>
+                    <div id="miniPalette" class="mini-palette"></div>
+                </section>
+
+                <details class="settings-panel">
+                    <summary>Ajustar sensibilidad</summary>
+                    <label for="sensitivity">Tolerancia de reconocimiento <strong id="sensitivityValue">26</strong></label>
+                    <input id="sensitivity" type="range" min="18" max="42" value="26">
+                </details>
+            </aside>
+        </div>
+    </main>
+
+    <footer>Actividad educativa para reconocer colores y seguir secuencias</footer>
+    <script src="js/celebration.js?v=3" defer></script>
+    <script src="js/identificacioncolores.js?v=4" defer></script>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recuperar contraseña - Zoológico Mágico</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=5">
+  <link rel="stylesheet" href="css/registro.css?v=5">
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+</head>
+<body class="auth-page register-page recover-page" data-page-bg="general">
+  <main class="auth-shell recover-shell">
+    <section class="auth-hero" aria-label="Ayuda para recuperar contraseña">
+      <a class="auth-brand" href="index.html" aria-label="Volver al inicio">
+        <span class="brand-mark">OS</span>
+        <span>Juegos OSMO</span>
+      </a>
+      <div class="hero-copy">
+        <p class="eyebrow">Acceso seguro</p>
+        <h1>Recupera tu contraseña en unos segundos.</h1>
+        <p>Escribe el correo de tu cuenta y enviaremos un enlace para crear una nueva contraseña.</p>
+      </div>
+      <div class="feature-list" aria-label="Indicaciones">
+        <span>Revisa bandeja de entrada</span>
+        <span>También correo no deseado</span>
+        <span>El enlace llega por Firebase</span>
+      </div>
+    </section>
+
+    <section class="auth-card" aria-labelledby="recoverTitle">
+      <div class="card-heading">
+        <p class="eyebrow">Recuperación</p>
+        <h2 id="recoverTitle">Restablecer contraseña</h2>
+        <p>Usa el correo con el que te registraste.</p>
+      </div>
+
+      <form id="recoverForm" class="auth-form" novalidate>
+        <div class="input-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" class="form-input" required autocomplete="email">
+          <small>Te enviaremos un enlace para volver a entrar.</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="recoverSubmit">Enviar enlace</button>
+        <div id="mensajeRecuperacion" class="message" role="status" aria-live="polite"></div>
+
+        <p class="text-center"><a href="index.html">Volver al inicio de sesión</a></p>
+      </form>
+    </section>
+  </main>
+
+  <script type="module">
+    import { recuperarPassword } from './js/auth.js';
+
+    const form = document.getElementById('recoverForm');
+    const submitButton = document.getElementById('recoverSubmit');
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando...';
+
+      try {
+        const enviado = await recuperarPassword();
+
+        if (enviado) {
+          let segundos = 30;
+          submitButton.textContent = `Reenviar en ${segundos} s`;
+          const temporizador = window.setInterval(() => {
+            segundos -= 1;
+            submitButton.textContent = segundos > 0
+              ? `Reenviar en ${segundos} s`
+              : 'Reenviar enlace';
+
+            if (segundos <= 0) {
+              window.clearInterval(temporizador);
+              submitButton.disabled = false;
+            }
+          }, 1000);
+          return;
+        }
+      } finally {
+        if (!submitButton.textContent.startsWith('Reenviar en')) {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Enviar enlace';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

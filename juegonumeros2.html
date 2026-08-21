@@ -1,0 +1,1148 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprendamos los Números</title>
+    <style>
+        :root {
+            --primary-color: #e67e22;
+            --secondary-color: #f39c12;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+            --warning-color: #f1c40f;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #2c3e50;
+            --text-light: #7f8c8d;
+            --border-radius: 16px;
+            --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --gradient-start: #ff6b6b;
+            --gradient-end: #ffa502;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f0fe 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            background-color: var(--card-background);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-icon {
+            font-size: 2.2rem;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .info-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .current-number {
+            background: white;
+            color: var(--primary-color);
+            min-width: 58px;
+            width: auto;
+            height: 45px;
+            padding: 0 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .current-number.number-pulse {
+            animation: numberPulse 0.6s ease;
+        }
+
+        @keyframes numberPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); background: #ffd93d; color: #2c3e50; }
+        }
+
+        .btn-config {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        .btn-config:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(60deg);
+        }
+
+        main {
+            padding: 30px;
+        }
+
+        #lessonVideo {
+            display: block;
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            margin: 0 auto 25px;
+            border: 0;
+            border-radius: var(--border-radius);
+            background: #000;
+            object-fit: contain;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .video-panel {
+            max-width: 680px;
+            margin: 0 auto 28px;
+            padding: 18px;
+            border: 1px solid rgba(16, 40, 30, 0.16);
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 12px 28px rgba(16, 40, 30, 0.11);
+        }
+
+        .video-panel #lessonVideo {
+            margin-bottom: 14px;
+        }
+
+        .video-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+        }
+
+        #videoStatus {
+            margin: 0;
+            color: #294638;
+            font-weight: 700;
+        }
+
+        #startVideoBtn {
+            flex: 0 0 auto;
+            min-height: 44px;
+            padding: 11px 18px;
+            border: 0;
+            border-radius: 12px;
+            background: #215f3c;
+            color: #fff;
+            cursor: pointer;
+            font: inherit;
+            font-weight: 800;
+        }
+
+        #startVideoBtn:disabled {
+            background: #64766b;
+            cursor: wait;
+            opacity: 0.9;
+        }
+
+        .video-attribution {
+            margin: 13px 0 0;
+            padding-top: 12px;
+            border-top: 1px solid rgba(16, 40, 30, 0.12);
+            color: #3d594a;
+            font-size: 0.86rem;
+            font-weight: 650;
+            text-align: center;
+        }
+
+        .video-attribution a {
+            color: #174f32;
+            font-weight: 800;
+        }
+
+        #cameraView {
+            text-align: center;
+            margin-bottom: 25px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .camera-container {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+            margin: 0 auto 20px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            background: #000;
+        }
+
+        #webcam {
+            width: 100%;
+            display: block;
+            border: 3px solid var(--primary-color);
+            border-radius: var(--border-radius);
+        }
+
+        .scanning-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-sizing: border-box;
+            pointer-events: none;
+            animation: scanning 1.5s infinite ease-in-out;
+            border-radius: var(--border-radius);
+        }
+
+        .scanning-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-color: var(--primary-color);
+            border-style: solid;
+            border-width: 0;
+            border-radius: 4px;
+        }
+
+        .scanning-corner.tl { top: 15px; left: 15px; border-top-width: 4px; border-left-width: 4px; }
+        .scanning-corner.tr { top: 15px; right: 15px; border-top-width: 4px; border-right-width: 4px; }
+        .scanning-corner.bl { bottom: 15px; left: 15px; border-bottom-width: 4px; border-left-width: 4px; }
+        .scanning-corner.br { bottom: 15px; right: 15px; border-bottom-width: 4px; border-right-width: 4px; }
+
+        @keyframes scanning {
+            0%, 100% { border-color: rgba(255, 255, 255, 0.3); box-shadow: 0 0 20px rgba(230, 126, 34, 0); }
+            50% { border-color: var(--primary-color); box-shadow: 0 0 40px rgba(230, 126, 34, 0.3); }
+        }
+
+        #instructionBox {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 18px 25px;
+            border-radius: var(--border-radius);
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.3);
+            font-size: 1.2rem;
+        }
+
+        #instructionBox strong {
+            font-size: 2rem;
+            background: white;
+            color: var(--primary-color);
+            padding: 0 12px;
+            border-radius: 8px;
+            display: inline-block;
+            min-width: 50px;
+        }
+
+        #feedback {
+            font-weight: 600;
+            margin: 15px 0;
+            min-height: 36px;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .feedback-correct {
+            color: var(--success-color);
+            background: #d5f5e3;
+            border: 2px solid var(--success-color);
+        }
+
+        .feedback-incorrect {
+            color: var(--error-color);
+            background: #fadbd8;
+            border: 2px solid var(--error-color);
+        }
+
+        .feedback-warning {
+            color: #856404;
+            background: #fff3cd;
+            border: 2px solid var(--warning-color);
+        }
+
+        #scanStatus {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            padding: 8px;
+        }
+
+        .progress-container {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #ecf0f1;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 24px;
+            background-color: #ecf0f1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            border-radius: 12px;
+            width: 0%;
+            transition: width 0.6s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-top: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 18px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                text-align: center;
+                padding: 20px;
+            }
+            
+            .header-info {
+                width: 100%;
+                justify-content: center;
+            }
+
+            header h1 {
+                font-size: 1.6rem;
+            }
+
+            .header-left {
+                width: 100%;
+                justify-content: center;
+            }
+
+            #lessonVideo {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            header h1 {
+                font-size: 1.3rem;
+            }
+
+            .info-badge {
+                font-size: 0.85rem;
+                padding: 5px 12px;
+            }
+
+            .current-number {
+                min-width: 52px;
+                width: auto;
+                height: 38px;
+                padding: 0 10px;
+                font-size: 1.4rem;
+            }
+
+            #lessonVideo {
+                height: auto;
+            }
+
+            .video-controls {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            #instructionBox {
+                font-size: 1rem;
+                padding: 15px;
+            }
+
+            #instructionBox strong {
+                font-size: 1.5rem;
+            }
+
+            main {
+                padding: 15px;
+            }
+        }
+
+        @keyframes scoreUpdate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.4); color: #27ae60; }
+            100% { transform: scale(1); }
+        }
+
+        .score-updated {
+            animation: scoreUpdate 0.5s ease;
+        }
+
+        /* Estilo para el botón de reinicio */
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .btn-qr-kit {
+            color: white;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .btn-qr-kit:hover {
+            background: rgba(255, 255, 255, 0.28);
+            transform: translateY(-1px);
+        }
+
+        /* Número encontrado badge */
+        .number-found {
+            display: inline-block;
+            background: var(--success-color);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="css/app-ui.css">
+  <link rel="stylesheet" href="css/page-backgrounds.css?v=3">
+  <link rel="stylesheet" href="css/activity-header.css?v=2">
+  <link rel="stylesheet" href="css/activity-contrast.css?v=1">
+  <link rel="stylesheet" href="css/celebration.css?v=1">
+  <script src="js/voice.js?v=1"></script>
+  <script src="js/celebration.js?v=3" defer></script>
+</head>
+<body data-page-bg="numbers">
+        <header class="activity-topbar activity-topbar--numbers">
+            <a class="activity-back" data-app-back href="menu-jugador.html" aria-label="Volver al menú" title="Volver al menú">←</a>
+            <div class="activity-brand">
+                <span class="activity-icon" aria-hidden="true">123</span>
+                <div><strong>Aprendamos los Números</strong><small>Video y retos con códigos QR</small></div>
+            </div>
+            <div class="header-info activity-actions">
+                <div class="info-badge">
+                    <span>⭐</span>
+                    <span id="scoreValue">0</span>
+                </div>
+                <div class="info-badge">
+                    <span>🔢</span>
+                    <div id="currentNumber" class="current-number">-</div>
+                </div>
+                <a class="btn-qr-kit" href="qr-numeros.html?v=5" target="qrNumerosWindow" rel="opener">▦ QR de números</a>
+                <a class="btn-qr-kit" href="output/pdf/numeros-qr-1-a-10.pdf?v=2" download="numeros-qr-1-a-10.pdf">↓ PDF 1-10</a>
+                <button id="resetBtn" class="btn-reset" title="Reiniciar juego">↺</button>
+            </div>
+        </header>
+
+    <div class="container">
+        <main>
+            <section class="video-panel" aria-labelledby="videoStatus">
+                <video id="lessonVideo" controls preload="metadata" playsinline>
+                    <source src="videos/numeros-1-al-10.mp4?v=1" type="video/mp4">
+                    Tu navegador no puede reproducir este video MP4.
+                </video>
+                <div class="video-controls">
+                    <p id="videoStatus" role="status" aria-live="polite">Cargando el video educativo…</p>
+                    <button id="startVideoBtn" type="button" disabled>▶ Reproducir video</button>
+                </div>
+                <p class="video-attribution">Fuente del video: <a href="https://www.youtube.com/@SmileandLearnEspa%C3%B1ol" target="_blank" rel="noopener noreferrer">Smile and Learn - Español</a> · <a href="https://www.youtube.com/watch?v=qHkEDhTaPnk" target="_blank" rel="noopener noreferrer">Video original en YouTube</a></p>
+            </section>
+
+            <div id="cameraView">
+                <div class="camera-container">
+                    <video id="webcam" autoplay playsinline muted></video>
+                    <div class="scanning-overlay">
+                        <div class="scanning-corner tl"></div>
+                        <div class="scanning-corner tr"></div>
+                        <div class="scanning-corner bl"></div>
+                        <div class="scanning-corner br"></div>
+                    </div>
+                </div>
+                <div id="instructionBox">
+                    <p>📷 Enfoca el código QR del número <strong id="expectedNumberText">1</strong> con la cámara</p>
+                </div>
+                <div id="feedback"></div>
+                <p id="scanStatus">Preparando cámara...</p>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span>📊 Progreso</span>
+                    <span id="progressText">0/10 números</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="statCorrect">0</div>
+                        <div class="stat-label">✅ Correctos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statIncorrect">0</div>
+                        <div class="stat-label">❌ Incorrectos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statStreak">0</div>
+                        <div class="stat-label">🔥 Racha</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="statAccuracy">0%</div>
+                        <div class="stat-label">🎯 Precisión</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Actividad educativa para aprender los números del 1 al 10 🎓</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+    <script>
+        // ============ CONFIGURACIÓN ============
+        const NUMBERS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+
+        const config = {
+            checkpoints: [
+                { time: 52, number: '1' },
+                { time: 60, number: '2' },
+                { time: 68, number: '3' },
+                { time: 77, number: '4' },
+                { time: 89, number: '5' },
+                { time: 100, number: '6' },
+                { time: 113, number: '7' },
+                { time: 125, number: '8' },
+                { time: 139, number: '9' },
+                { time: 155, number: '10' }
+            ]
+        };
+
+        const checkpoints = config.checkpoints;
+        const totalNumbers = checkpoints.length;
+
+        // ============ VARIABLES GLOBALES ============
+        let scanActive = false;
+        let isCameraReady = false;
+        let lastCheckpointNotified = -1;
+        let scanInterval;
+        let lastDetectedQR = null;
+        let qrDetectionCooldown = false;
+        let awaitingQR = false;
+        let playbackLocked = false;
+        let lockedVideoTime = null;
+
+        let score = 0;
+        let currentCheckpoint = 0;
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let streak = 0;
+        let bestStreak = 0;
+        let totalAttempts = 0;
+        let numbersFound = new Set();
+        let resumeCountdownInterval = null;
+        let resumeCountdownTimeout = null;
+
+        // ============ ELEMENTOS DOM ============
+        const videoElement = document.getElementById('webcam');
+        const player = document.getElementById('lessonVideo');
+        const scoreValueElement = document.getElementById('scoreValue');
+        const currentNumberElement = document.getElementById('currentNumber');
+        const progressFillElement = document.getElementById('progressFill');
+        const progressTextElement = document.getElementById('progressText');
+        const feedbackElement = document.getElementById('feedback');
+        const scanStatusElement = document.getElementById('scanStatus');
+        const cameraViewElement = document.getElementById('cameraView');
+        const expectedNumberText = document.getElementById('expectedNumberText');
+        const videoStatusElement = document.getElementById('videoStatus');
+        const startVideoButton = document.getElementById('startVideoBtn');
+
+        const statCorrect = document.getElementById('statCorrect');
+        const statIncorrect = document.getElementById('statIncorrect');
+        const statStreak = document.getElementById('statStreak');
+        const statAccuracy = document.getElementById('statAccuracy');
+
+        // ============ FUNCIONES DE ACTUALIZACIÓN ============
+        function updateCurrentNumber(number) {
+            currentNumberElement.textContent = number || '-';
+            currentNumberElement.classList.remove('number-pulse');
+            // Forzar reflow
+            void currentNumberElement.offsetWidth;
+            currentNumberElement.classList.add('number-pulse');
+        }
+
+        function updateScore(points) {
+            score = Math.max(0, score + points);
+            scoreValueElement.textContent = score;
+            scoreValueElement.classList.remove('score-updated');
+            void scoreValueElement.offsetWidth;
+            scoreValueElement.classList.add('score-updated');
+        }
+
+        function updateProgress() {
+            const progress = (currentCheckpoint / totalNumbers) * 100;
+            progressFillElement.style.width = `${Math.min(100, progress)}%`;
+            progressTextElement.textContent = `${currentCheckpoint}/${totalNumbers} números`;
+        }
+
+        function updateStats(correct, incorrect, streakVal) {
+            statCorrect.textContent = correct;
+            statIncorrect.textContent = incorrect;
+            statStreak.textContent = streakVal;
+            const total = correct + incorrect;
+            const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+            statAccuracy.textContent = `${accuracy}%`;
+        }
+
+        function showFeedback(message, type) {
+            feedbackElement.textContent = message;
+            feedbackElement.className = type || '';
+            feedbackElement.style.display = 'block';
+        }
+
+        function hideFeedback() {
+            feedbackElement.textContent = '';
+            feedbackElement.className = '';
+            feedbackElement.style.display = 'none';
+        }
+
+        function speak(text) {
+            window.OsmoVoice?.speak(text, { rate: 0.85 });
+        }
+
+        // ============ CÁMARA ============
+        async function initCamera() {
+            try {
+                const expectedNumber = checkpoints[currentCheckpoint]?.number;
+                if (videoElement.srcObject) {
+                    await videoElement.play();
+                    isCameraReady = true;
+                    scanStatusElement.textContent = `📸 Cámara lista - Esperando exactamente el QR ${expectedNumber}`;
+                    return;
+                }
+
+                scanStatusElement.textContent = `📷 Activando cámara para el QR ${expectedNumber}`;
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment", width: { ideal: 1280 }, height: { ideal: 720 } }
+                });
+                videoElement.muted = true;
+                videoElement.playsInline = true;
+                videoElement.srcObject = stream;
+                await videoElement.play();
+                isCameraReady = true;
+                scanStatusElement.textContent = `📸 Cámara lista - Esperando exactamente el QR ${expectedNumber}`;
+            } catch (err) {
+                console.error("Error de cámara:", err);
+                scanStatusElement.textContent = "⚠️ Error: Permisos de cámara no otorgados";
+                showFeedback("❌ Necesito acceso a la cámara para jugar", 'feedback-incorrect');
+                speak("Por favor, permite el acceso a la cámara");
+            }
+        }
+
+        function stopCamera() {
+            if (videoElement.srcObject) {
+                videoElement.srcObject.getTracks().forEach(track => track.stop());
+                videoElement.srcObject = null;
+            }
+            isCameraReady = false;
+        }
+
+        // ============ ESCANEO QR ============
+        function startQRScan() {
+            if (scanActive || !awaitingQR) return;
+            scanActive = true;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            scanInterval = setInterval(() => {
+                if (!isCameraReady || !scanActive || !awaitingQR || qrDetectionCooldown) return;
+
+                if (videoElement.readyState === videoElement.HAVE_ENOUGH_DATA) {
+                    canvas.width = videoElement.videoWidth;
+                    canvas.height = videoElement.videoHeight;
+                    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+                    try {
+                        const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+                        if (qrCode && qrCode.data !== lastDetectedQR) {
+                            lastDetectedQR = qrCode.data;
+                            const detectedNumber = qrCode.data.trim();
+                            const expectedNumber = checkpoints[currentCheckpoint].number;
+                            scanStatusElement.textContent = `🔍 Detectado: ${detectedNumber}`;
+
+                            if (NUMBERS.includes(detectedNumber) && detectedNumber === expectedNumber) {
+                                handleCorrectQR();
+                            } else {
+                                handleIncorrectQR(detectedNumber);
+                            }
+
+                            qrDetectionCooldown = true;
+                            setTimeout(() => {
+                                qrDetectionCooldown = false;
+                                lastDetectedQR = null;
+                            }, 1500);
+                        }
+                    } catch (error) {
+                        console.error("Error en escaneo:", error);
+                    }
+                }
+            }, 400);
+        }
+
+        function clearResumeCountdown() {
+            if (resumeCountdownInterval) {
+                clearInterval(resumeCountdownInterval);
+                resumeCountdownInterval = null;
+            }
+
+            if (resumeCountdownTimeout) {
+                clearTimeout(resumeCountdownTimeout);
+                resumeCountdownTimeout = null;
+            }
+        }
+
+        function finishGame(finalNumber) {
+            cameraViewElement.style.display = 'none';
+            player.pause();
+            const bonus = 50;
+            updateScore(bonus);
+            showFeedback(`🎉 ¡Juego completado! Bono +${bonus} puntos`, 'feedback-correct');
+            scanStatusElement.textContent = "🏆 Actividad finalizada - Pulsa Continuar para seguir el video";
+            progressTextElement.textContent = `${totalNumbers}/${totalNumbers} números completados - Finalizado en 10`;
+            updateCurrentNumber(finalNumber);
+            speak("¡Felicidades! Completaste todos los números del uno al diez");
+            const continueVideo = () => {
+                playbackLocked = false;
+                lockedVideoTime = null;
+                scanStatusElement.textContent = 'Actividad completada - Video en reproducción';
+                playLessonVideo();
+            };
+            if (window.AppCelebration) {
+                window.AppCelebration.show({
+                    activity: 'Aprendamos los Números',
+                    icon: '123',
+                    continueLabel: 'Continuar video',
+                    message: 'Completaste todos los números del 1 al 10 y escaneaste cada código correctamente.',
+                    onContinue: continueVideo
+                });
+            } else {
+                continueVideo();
+            }
+        }
+
+        function startResumeCountdown(completedNumber, isFinalNumber) {
+            clearResumeCountdown();
+            let secondsRemaining = 5;
+
+            const renderCountdown = () => {
+                showFeedback(
+                    isFinalNumber
+                        ? `✅ ¡Correcto! Número ${completedNumber} completado. Finalizando en ${secondsRemaining} segundos.`
+                        : `✅ ¡Correcto! +10 puntos. El video continúa en ${secondsRemaining} segundos.`,
+                    'feedback-correct'
+                );
+                scanStatusElement.textContent = isFinalNumber
+                    ? `Último número completado: ${secondsRemaining}`
+                    : `Video en pausa: ${secondsRemaining}`;
+            };
+
+            renderCountdown();
+            resumeCountdownInterval = setInterval(() => {
+                secondsRemaining--;
+                if (secondsRemaining > 0) renderCountdown();
+            }, 1000);
+
+            resumeCountdownTimeout = setTimeout(() => {
+                clearResumeCountdown();
+                if (isFinalNumber) {
+                    finishGame(completedNumber);
+                    return;
+                }
+
+                cameraViewElement.style.display = 'none';
+                updateCurrentNumber("-");
+                scanStatusElement.textContent = "Preparado para el siguiente número";
+                playbackLocked = false;
+                lockedVideoTime = null;
+                playLessonVideo();
+            }, 5000);
+        }
+
+        function handleCorrectQR() {
+            scanActive = false;
+            awaitingQR = false;
+            clearInterval(scanInterval);
+            scanInterval = null;
+            stopCamera();
+            const number = checkpoints[currentCheckpoint].number;
+            const isFinalNumber = currentCheckpoint === totalNumbers - 1;
+
+            // Actualizar estadísticas
+            correctCount++;
+            streak++;
+            if (streak > bestStreak) bestStreak = streak;
+            totalAttempts++;
+
+            updateScore(10);
+            numbersFound.add(number);
+            updateStats(correctCount, incorrectCount, streak);
+
+            speak(`Correcto, número ${number}`);
+
+            updateCurrentNumber(number);
+
+            currentCheckpoint++;
+            updateProgress();
+            startResumeCountdown(number, isFinalNumber);
+        }
+
+        function handleIncorrectQR(detectedNumber) {
+            const expectedNumber = checkpoints[currentCheckpoint].number;
+            const detectedValue = NUMBERS.includes(detectedNumber) ? detectedNumber : "código no válido";
+            incorrectCount++;
+            totalAttempts++;
+            streak = 0;
+
+            showFeedback(`❌ QR incorrecto: ${detectedValue}. Necesitas exactamente ${expectedNumber}.`, 'feedback-incorrect');
+            updateScore(-5);
+            updateStats(correctCount, incorrectCount, streak);
+            
+            speak(`Incorrecto. Busca el número ${expectedNumber}`);
+            
+            setTimeout(() => {
+                if (cameraViewElement.style.display === 'block') {
+                    hideFeedback();
+                    scanStatusElement.textContent = `🔍 Esperando exactamente el QR ${expectedNumber}`;
+                }
+            }, 2000);
+        }
+
+        function enforcePlaybackLock() {
+            if (!playbackLocked || !player) return false;
+
+            player.pause();
+            if (
+                lockedVideoTime !== null &&
+                Math.abs(player.currentTime - lockedVideoTime) > 0.25
+            ) {
+                player.currentTime = lockedVideoTime;
+            }
+
+            if (awaitingQR && currentCheckpoint < totalNumbers) {
+                const expectedNumber = checkpoints[currentCheckpoint].number;
+                cameraViewElement.style.display = 'block';
+                expectedNumberText.textContent = expectedNumber;
+                updateCurrentNumber(expectedNumber);
+                showFeedback(
+                    `🔒 Debes escanear exactamente el QR ${expectedNumber} para continuar.`,
+                    'feedback-warning'
+                );
+                scanStatusElement.textContent = `🔒 Video bloqueado - Esperando el QR ${expectedNumber}`;
+            }
+
+            return true;
+        }
+
+        // ============ VIDEO LOCAL ============
+        function setVideoStatus(message, buttonLabel, buttonDisabled) {
+            videoStatusElement.textContent = message;
+            if (buttonLabel) startVideoButton.textContent = buttonLabel;
+            startVideoButton.disabled = Boolean(buttonDisabled);
+        }
+
+        async function playLessonVideo() {
+            try {
+                await player.play();
+                return true;
+            } catch (error) {
+                console.warn('El navegador no inició el video local.', error);
+                setVideoStatus('Pulsa reproducir para iniciar el video.', '▶ Reproducir video', false);
+                return false;
+            }
+        }
+
+        async function startVideoPlayback() {
+            setVideoStatus('Iniciando el video…', '▶ Reproducir video', true);
+            await playLessonVideo();
+        }
+
+        function checkTime() {
+            if (player.paused || player.ended || currentCheckpoint >= totalNumbers) return;
+
+            const checkpoint = checkpoints[currentCheckpoint];
+            if (player.currentTime >= checkpoint.time && lastCheckpointNotified !== currentCheckpoint) {
+                playbackLocked = true;
+                lockedVideoTime = checkpoint.time;
+                player.currentTime = checkpoint.time;
+                player.pause();
+                awaitingQR = true;
+                cameraViewElement.style.display = 'block';
+                expectedNumberText.textContent = checkpoint.number;
+                updateCurrentNumber(checkpoint.number);
+                hideFeedback();
+                scanStatusElement.textContent = `🔍 Esperando exactamente el QR ${checkpoint.number}`;
+                speak(`Escanea el número ${checkpoint.number}`);
+                lastCheckpointNotified = currentCheckpoint;
+                lastDetectedQR = null;
+                initCamera();
+                startQRScan();
+            }
+        }
+
+        function initializeLocalVideo() {
+            const lastCheckpoint = checkpoints[checkpoints.length - 1].time;
+
+            player.addEventListener('loadedmetadata', () => {
+                videoStatusElement.dataset.duration = player.duration.toFixed(2);
+                if (!Number.isFinite(player.duration) || player.duration < lastCheckpoint) {
+                    setVideoStatus('El video local es más corto que los hitos del juego.', 'Video incompatible', true);
+                    return;
+                }
+
+                setVideoStatus('Video listo. Pulsa reproducir para comenzar.', '▶ Reproducir video', false);
+                updateProgress();
+                updateCurrentNumber("-");
+                updateStats(0, 0, 0);
+            });
+
+            player.addEventListener('play', () => {
+                setVideoStatus('Video en reproducción. Se detendrá en cada reto.', 'Video en reproducción', true);
+                enforcePlaybackLock();
+            });
+
+            player.addEventListener('pause', () => {
+                if (!awaitingQR && !playbackLocked && !player.ended) {
+                    setVideoStatus('Video en pausa.', '▶ Continuar video', false);
+                }
+            });
+
+            player.addEventListener('ended', () => {
+                setVideoStatus('Video completado.', 'Video completado', true);
+            });
+
+            player.addEventListener('timeupdate', checkTime);
+
+            player.addEventListener('error', () => {
+                const mediaErrors = {
+                    1: 'La carga del video fue cancelada.',
+                    2: 'No se pudo leer el archivo de video local.',
+                    3: 'El navegador no pudo decodificar el video.',
+                    4: 'El formato del video local no es compatible.'
+                };
+                const code = player.error?.code || 0;
+                videoStatusElement.dataset.mediaError = String(code || 'desconocido');
+                setVideoStatus(mediaErrors[code] || 'No se pudo cargar el video local.', '↻ Reintentar', false);
+            });
+
+            if (player.readyState >= 1) {
+                player.dispatchEvent(new Event('loadedmetadata'));
+            }
+        }
+
+        // ============ REINICIO ============
+        function resetGame() {
+            if (confirm('¿Reiniciar el juego? Se perderá el progreso actual.')) {
+                // Resetear variables
+                currentCheckpoint = 0;
+                lastCheckpointNotified = -1;
+                score = 0;
+                correctCount = 0;
+                incorrectCount = 0;
+                streak = 0;
+                bestStreak = 0;
+                totalAttempts = 0;
+                numbersFound.clear();
+                lastDetectedQR = null;
+                scanActive = false;
+                awaitingQR = false;
+                playbackLocked = false;
+                lockedVideoTime = null;
+                qrDetectionCooldown = false;
+                clearResumeCountdown();
+                
+                if (scanInterval) {
+                    clearInterval(scanInterval);
+                    scanInterval = null;
+                }
+                stopCamera();
+
+                // Resetear UI
+                updateScore(0);
+                updateCurrentNumber("-");
+                updateProgress();
+                updateStats(0, 0, 0);
+                hideFeedback();
+                cameraViewElement.style.display = 'none';
+                scanStatusElement.textContent = "🔄 Reiniciando...";
+                
+                // Reproducir video
+                if (player) {
+                    player.currentTime = 0;
+                    playLessonVideo();
+                }
+                
+                speak("Juego reiniciado");
+            }
+        }
+
+        // ============ CARGA INICIAL ============
+        window.onload = function() {
+            document.getElementById('resetBtn').addEventListener('click', resetGame);
+            startVideoButton.addEventListener('click', startVideoPlayback);
+            initializeLocalVideo();
+        };
+
+        // Limpieza al cerrar
+        window.addEventListener('beforeunload', function() {
+            if (scanInterval) clearInterval(scanInterval);
+            clearResumeCountdown();
+            stopCamera();
+        });
+    </script>
+    <script src="js/app-ui.js?v=2" defer></script>
+</body>
+</html>

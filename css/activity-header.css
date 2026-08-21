@@ -1,0 +1,282 @@
+.activity-topbar {
+  --activity-header: #176b43;
+  position: sticky !important;
+  top: 0;
+  z-index: 300;
+  width: 100%;
+  min-height: 76px;
+  margin: 0 !important;
+  padding: 12px clamp(16px, 3vw, 32px) !important;
+  display: flex !important;
+  align-items: center;
+  gap: 14px;
+  border: 0 !important;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.22) !important;
+  border-radius: 0 !important;
+  background: var(--activity-header) !important;
+  color: #fff;
+  box-shadow: 0 8px 24px rgba(17, 51, 37, 0.18) !important;
+}
+
+.activity-topbar--letters { --activity-header: #5c57dc; }
+.activity-topbar--numbers { --activity-header: #e86d22; }
+.activity-topbar--zoo { --activity-header: #176b43; }
+.activity-topbar--colors { --activity-header: #16776b; }
+.activity-topbar--shapes { --activity-header: #16776b; }
+.activity-topbar--hands { --activity-header: #247fbd; }
+.activity-topbar--body { --activity-header: #287447; }
+.activity-topbar--drawing { --activity-header: #7354c7; }
+
+body:has(> .activity-topbar) > .app-back {
+  display: none !important;
+}
+
+.activity-topbar .zoo-topbar-inner {
+  width: 100%;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.activity-back,
+.activity-topbar .back-button,
+.activity-topbar .app-back,
+.activity-topbar [data-app-back] {
+  position: static !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: grid !important;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.42) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #fff !important;
+  font-size: 1.15rem !important;
+  line-height: 1;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+.activity-back:hover,
+.activity-back:focus-visible,
+.activity-topbar .back-button:hover,
+.activity-topbar .app-back:hover,
+.activity-topbar [data-app-back]:hover {
+  background: rgba(255, 255, 255, 0.22) !important;
+  outline: 2px solid rgba(255, 255, 255, 0.48);
+  outline-offset: 2px;
+}
+
+.activity-brand,
+.activity-topbar .brand,
+.activity-topbar .color-brand,
+.activity-topbar .zoo-brand {
+  min-width: 190px;
+  display: flex !important;
+  align-items: center;
+  gap: 11px;
+  flex: 1 1 auto;
+  color: #fff !important;
+}
+
+.activity-brand > div,
+.activity-topbar .brand > div,
+.activity-topbar .color-brand > div,
+.activity-topbar .zoo-brand > div {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+
+.activity-brand strong,
+.activity-topbar .brand strong,
+.activity-topbar .color-brand strong,
+.activity-topbar .zoo-brand strong {
+  color: #fff !important;
+  font-size: 1.05rem !important;
+  line-height: 1.2;
+  white-space: normal;
+}
+
+.activity-brand small,
+.activity-brand span:not(.activity-icon),
+.activity-topbar .brand small,
+.activity-topbar .color-brand small,
+.activity-topbar .zoo-brand span:not(.zoo-brand-icon) {
+  color: rgba(255, 255, 255, 0.82) !important;
+  font-size: 0.76rem !important;
+  line-height: 1.25;
+}
+
+.activity-icon,
+.activity-topbar .brand-mark,
+.activity-topbar .brand-swatch,
+.activity-topbar .zoo-brand-icon,
+.activity-topbar .brand > span:first-child {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  display: grid !important;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+  font-size: 1rem !important;
+  font-weight: 800;
+  box-shadow: none !important;
+}
+
+.activity-actions,
+.activity-topbar .header-info,
+.activity-topbar .top-actions,
+.activity-topbar .palette-actions {
+  min-width: 0;
+  margin-left: auto;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px !important;
+  flex-wrap: wrap;
+}
+
+.activity-actions > a,
+.activity-actions > button,
+.activity-topbar .header-info > a,
+.activity-topbar .header-info > button,
+.activity-topbar .top-actions > a,
+.activity-topbar .palette-actions > a,
+.activity-topbar .voice-button {
+  min-height: 40px;
+  margin: 0 !important;
+  padding: 8px 12px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.38) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.13) !important;
+  color: #fff !important;
+  font-family: inherit;
+  font-size: 0.84rem !important;
+  font-weight: 700 !important;
+  line-height: 1.2;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+.activity-actions > a:hover,
+.activity-actions > button:hover,
+.activity-topbar .header-info > a:hover,
+.activity-topbar .header-info > button:hover,
+.activity-topbar .top-actions > a:hover,
+.activity-topbar .palette-actions > a:hover,
+.activity-topbar .voice-button:hover {
+  background: rgba(255, 255, 255, 0.23) !important;
+}
+
+.activity-topbar .score-container,
+.activity-topbar .current-letter-container,
+.activity-topbar .info-badge,
+.activity-topbar .points-badge,
+.activity-topbar .header-score,
+.activity-topbar .gesture-badge {
+  min-height: 40px;
+  margin: 0 !important;
+  padding: 7px 11px !important;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.16) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+}
+
+.activity-topbar .score-label,
+.activity-topbar .letter-label,
+.activity-topbar .header-score small,
+.activity-topbar .gesture-badge span {
+  color: rgba(255, 255, 255, 0.82) !important;
+  font-size: 0.75rem !important;
+}
+
+.activity-topbar .current-letter,
+.activity-topbar .current-number {
+  min-width: 42px !important;
+  height: 32px !important;
+  display: grid !important;
+  place-items: center;
+  border-radius: 7px !important;
+  background: #fff !important;
+  color: var(--activity-header) !important;
+  font-size: 1rem !important;
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .activity-topbar,
+  .activity-topbar .zoo-topbar-inner {
+    flex-wrap: wrap;
+  }
+
+  .activity-actions,
+  .activity-topbar .header-info,
+  .activity-topbar .top-actions,
+  .activity-topbar .palette-actions {
+    width: 100%;
+    flex: 1 0 100%;
+    margin-left: 58px;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 560px) {
+  .activity-topbar {
+    min-height: 68px;
+    padding: 10px 12px !important;
+    gap: 10px;
+  }
+
+  .activity-brand,
+  .activity-topbar .brand,
+  .activity-topbar .color-brand,
+  .activity-topbar .zoo-brand {
+    min-width: 0;
+  }
+
+  .activity-brand strong,
+  .activity-topbar .brand strong,
+  .activity-topbar .color-brand strong,
+  .activity-topbar .zoo-brand strong {
+    font-size: 0.95rem !important;
+  }
+
+  .activity-actions,
+  .activity-topbar .header-info,
+  .activity-topbar .top-actions,
+  .activity-topbar .palette-actions {
+    margin-left: 0;
+  }
+
+  .activity-actions > a,
+  .activity-actions > button,
+  .activity-topbar .header-info > a,
+  .activity-topbar .header-info > button,
+  .activity-topbar .top-actions > a,
+  .activity-topbar .palette-actions > a,
+  .activity-topbar .voice-button {
+    min-height: 38px;
+    padding: 7px 9px !important;
+    font-size: 0.77rem !important;
+  }
+}
